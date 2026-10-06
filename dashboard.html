@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard — Industrial BI Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body data-page="dashboard" data-title="Dashboard">
+  <div class="app">
+    <aside id="sidebar"></aside>
+    <main class="main">
+      <header id="topbar"></header>
+      <div class="content">
+<div class="grid kpis" id="kpis"></div>
+<div class="grid g-2-1">
+  <div class="card"><div class="card-head"><h3>Produção por dia</h3><span>peças · últimos 30 dias</span></div><div class="chart-box"><canvas id="c-dia"></canvas></div></div>
+  <div class="card"><div class="card-head"><h3>Produção por setor</h3><span>participação</span></div><div class="chart-box"><canvas id="c-setor"></canvas></div></div>
+</div>
+<div class="grid g-3">
+  <div class="card"><div class="card-head"><h3>Produção x meta</h3><span>semanal</span></div><div class="chart-box"><canvas id="c-meta"></canvas></div></div>
+  <div class="card"><div class="card-head"><h3>Produção por turno</h3><span>peças</span></div><div class="chart-box"><canvas id="c-turno"></canvas></div></div>
+  <div class="card"><div class="card-head"><h3>Motivos de parada</h3><span>minutos</span></div><div class="chart-box"><canvas id="c-motivos"></canvas></div></div>
+</div>
+<div class="card"><div class="card-head"><h3>Evolução da eficiência</h3><span>produzido ÷ meta · 90 dias</span></div><div class="chart-box"><canvas id="c-efic"></canvas></div></div>
+      </div>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

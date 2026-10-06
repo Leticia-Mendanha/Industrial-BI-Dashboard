@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dados & SQL — Industrial BI Dashboard</title>
+  <meta name="description" content="Modelo de dados e consultas SQL do Industrial BI Dashboard." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-page="sql" data-title="Dados & SQL">
+  <div class="app"><aside id="sidebar"></aside><main class="main"><header id="topbar"></header><div class="content"><p class="section-title">Arquitetura de dados</p>
+<p class="lead">Modelo relacional fictício que sustenta os indicadores do projeto. As tabelas fato registram eventos operacionais; as dimensões padronizam produtos, setores, linhas e colaboradores.</p>
+<div class="grid g-3" style="margin-bottom:24px">
+  <div class="schema-table"><h4>fato_producao <small>1.848 linhas</small></h4><ul><li><span class="pk">id_producao (PK)</span><em>integer</em></li><li>data_producao<em>date</em></li><li><span class="fk">id_produto (FK)</span><em>integer</em></li><li><span class="fk">id_setor (FK)</span><em>integer</em></li><li>linha / turno<em>varchar</em></li><li>meta / produzido<em>integer</em></li><li>aprovado / rejeitado<em>integer</em></li><li>custo_total<em>decimal</em></li></ul></div>
+  <div class="schema-table"><h4>fato_estoque <small>39 linhas</small></h4><ul><li><span class="pk">id_movimento (PK)</span><em>integer</em></li><li><span class="fk">id_material (FK)</span><em>integer</em></li><li>data_movimento<em>date</em></li><li>tipo_movimento<em>varchar</em></li><li>quantidade<em>integer</em></li><li>custo_unitario<em>decimal</em></li><li>saldo_atual<em>integer</em></li></ul></div>
+  <div class="schema-table"><h4>fato_qualidade <small>1.103 linhas</small></h4><ul><li><span class="pk">id_inspecao (PK)</span><em>integer</em></li><li><span class="fk">id_producao (FK)</span><em>integer</em></li><li>tipo_defeito<em>varchar</em></li><li>quantidade<em>integer</em></li><li>severidade<em>varchar</em></li><li>acao_corretiva<em>text</em></li></ul></div>
+  <div class="schema-table"><h4>fato_paradas <small>624 linhas</small></h4><ul><li><span class="pk">id_parada (PK)</span><em>integer</em></li><li><span class="fk">id_setor (FK)</span><em>integer</em></li><li>data / turno<em>date · varchar</em></li><li>maquina / linha<em>varchar</em></li><li>motivo<em>varchar</em></li><li>duracao_minutos<em>integer</em></li></ul></div>
+  <div class="schema-table"><h4>dim_produtos <small>4 linhas</small></h4><ul><li><span class="pk">id_produto (PK)</span><em>integer</em></li><li>codigo<em>varchar</em></li><li>modelo<em>varchar</em></li><li>categoria<em>varchar</em></li><li>custo_padrao<em>decimal</em></li></ul></div>
+  <div class="schema-table"><h4>dim_setores <small>4 linhas</small></h4><ul><li><span class="pk">id_setor (PK)</span><em>integer</em></li><li>nome_setor<em>varchar</em></li><li>responsavel<em>varchar</em></li><li>capacidade_hora<em>integer</em></li></ul></div>
+  <div class="schema-table"><h4>dim_funcionarios <small>186 linhas</small></h4><ul><li><span class="pk">id_funcionario (PK)</span><em>integer</em></li><li>nome<em>varchar</em></li><li><span class="fk">id_setor (FK)</span><em>integer</em></li><li>cargo / turno<em>varchar</em></li><li>data_admissao<em>date</em></li></ul></div>
+</div>
+<p class="section-title">Consultas utilizadas nos indicadores</p>
+<div class="grid g-2">
+  <div><div class="card-head"><h3>Eficiência mensal por setor</h3><span>CTE + agregação</span></div><pre class="code"><span class="kw">WITH</span> producao_setor <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> s.nome_setor,
+         <span class="fn">SUM</span>(p.produzido) produzido,
+         <span class="fn">SUM</span>(p.meta) meta
+  <span class="kw">FROM</span> fato_producao p
+  <span class="kw">JOIN</span> dim_setores s
+    <span class="kw">ON</span> s.id_setor = p.id_setor
+  <span class="kw">WHERE</span> p.data_producao
+    <span class="kw">BETWEEN</span> <span class="str">'2026-09-01'</span>
+    <span class="kw">AND</span> <span class="str">'2026-09-30'</span>
+  <span class="kw">GROUP BY</span> s.nome_setor
+)
+<span class="kw">SELECT</span> nome_setor,
+  produzido * 100.0 / <span class="fn">NULLIF</span>(meta, 0)
+  <span class="kw">AS</span> eficiencia_pct
+<span class="kw">FROM</span> producao_setor
+<span class="kw">ORDER BY</span> eficiencia_pct <span class="kw">DESC</span>;</pre></div>
+  <div><div class="card-head"><h3>Pareto das paradas</h3><span>window function</span></div><pre class="code"><span class="kw">SELECT</span> motivo,
+       <span class="fn">SUM</span>(duracao_minutos) minutos,
+       <span class="fn">SUM</span>(<span class="fn">SUM</span>(duracao_minutos))
+         <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> <span class="fn">SUM</span>(duracao_minutos) <span class="kw">DESC</span>)
+         * 100.0 /
+       <span class="fn">SUM</span>(<span class="fn">SUM</span>(duracao_minutos))
+         <span class="kw">OVER</span> () <span class="kw">AS</span> percentual_acumulado
+<span class="kw">FROM</span> fato_paradas
+<span class="kw">WHERE</span> data <span class="kw">BETWEEN</span> <span class="str">'2026-09-01'</span>
+                   <span class="kw">AND</span> <span class="str">'2026-09-30'</span>
+<span class="kw">GROUP BY</span> motivo
+<span class="kw">ORDER BY</span> minutos <span class="kw">DESC</span>;</pre></div>
+</div></div></main></div>
+  <script src="js/data.js"></script><script src="js/layout.js"></script>
+</body>
+</html>

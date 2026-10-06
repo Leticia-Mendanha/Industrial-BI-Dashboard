@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Paradas de Produção — Industrial BI Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body data-page="paradas" data-title="Paradas de Produção">
+  <div class="app">
+    <aside id="sidebar"></aside>
+    <main class="main">
+      <header id="topbar"></header>
+      <div class="content">
+<div class="filters"><label>Período<select id="f-periodo"><option value="7">Últimos 7 dias</option><option value="30" selected>Últimos 30 dias</option><option value="90">Últimos 90 dias</option></select></label> <label>Setor<select id="f-setor"></select></label></div>
+<div class="grid kpis five" id="kpis"></div>
+<div class="card" style="margin-bottom:16px"><div class="card-head"><h3>Pareto dos motivos de parada</h3><span>minutos e % acumulado</span></div><div class="chart-box tall"><canvas id="c-pareto"></canvas></div></div>
+<div class="grid g-2">
+  <div class="card"><div class="card-head"><h3>Tempo parado por setor</h3><span>horas</span></div><div class="chart-box"><canvas id="c-setor"></canvas></div></div>
+  <div class="card"><div class="card-head"><h3>Máquinas mais afetadas</h3><span>top 10</span></div><div class="table-wrap" style="max-height:260px"><table><thead><tr><th>Máquina</th><th>Setor</th><th class="num">Paradas</th><th class="num">Minutos</th><th></th></tr></thead><tbody id="t-maq"></tbody></table></div></div>
+</div>
+      </div>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/paradas.js"></script>
+</body>
+</html>

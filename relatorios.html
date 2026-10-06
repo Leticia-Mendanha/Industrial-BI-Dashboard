@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Relatórios — Industrial BI Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body data-page="relatorios" data-title="Relatórios">
+  <div class="app">
+    <aside id="sidebar"></aside>
+    <main class="main">
+      <header id="topbar"></header>
+      <div class="content">
+<div class="filters"><label>Período<select id="f-periodo"><option value="7">Últimos 7 dias</option><option value="30" selected>Últimos 30 dias</option><option value="90">Últimos 90 dias</option></select></label><label>&nbsp;<button class="btn" id="exp-prod">Exportar produção</button></label><label>&nbsp;<button class="btn-ghost" id="exp-par">Exportar paradas</button></label><label>&nbsp;<button class="btn-ghost" id="exp-def">Exportar qualidade</button></label><label>&nbsp;<button class="btn-ghost" id="exp-est">Exportar estoque</button></label></div>
+<div class="grid kpis" id="kpis"></div>
+<div class="card" style="margin-bottom:16px"><div class="card-head"><h3>Resumo por setor</h3><button class="btn-ghost" id="exp-setor">CSV</button></div><div class="table-wrap"><table><thead><tr><th>Setor</th><th class="num">Meta</th><th class="num">Produzido</th><th class="num">Eficiência</th><th class="num">Rejeitado</th><th class="num">Taxa rejeição</th><th class="num">Paradas</th><th class="num">Horas paradas</th><th class="num">Custo</th></tr></thead><tbody id="t-setor"></tbody></table></div></div>
+<div class="grid g-2">
+  <div class="card"><div class="card-head"><h3>Resumo por produto</h3><button class="btn-ghost" id="exp-produto">CSV</button></div><div class="table-wrap"><table><thead><tr><th>Produto</th><th class="num">Produzido</th><th class="num">Aprovado</th><th class="num">Qualidade</th><th class="num">Custo</th></tr></thead><tbody id="t-produto"></tbody></table></div></div>
+  <div class="card"><div class="card-head"><h3>Resumo por turno</h3><button class="btn-ghost" id="exp-turno">CSV</button></div><div class="table-wrap"><table><thead><tr><th>Turno</th><th class="num">Produzido</th><th class="num">Eficiência</th><th class="num">Taxa rejeição</th></tr></thead><tbody id="t-turno"></tbody></table></div></div>
+</div>
+      </div>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/relatorios.js"></script>
+</body>
+</html>

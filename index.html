@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login — Industrial BI Dashboard</title>
+  <meta name="description" content="Sistema de Business Intelligence para indústria automobilística: produção, estoque, qualidade e paradas." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="login-page">
+    <!-- Lado esquerdo: apresentação -->
+    <section class="login-art">
+      <div class="brand" style="border:0"><div class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 20h20M4 20V10l5 3V10l5 3V6l6 4v10"/></svg></div><div><strong>Industrial BI</strong><span>Automotive Analytics</span></div></div>
+      <div>
+        <h2>Decisões de chão de fábrica guiadas por <span>dados</span>.</h2>
+        <p>Monitoramento de produção, estoque, qualidade e paradas de uma planta automotiva com 4 setores, 8 linhas e 3 turnos.</p>
+      </div>
+      <div class="login-stats">
+        <div><strong>8</strong><span>Linhas</span></div>
+        <div><strong>3</strong><span>Turnos</span></div>
+        <div><strong>90</strong><span>Dias de dados</span></div>
+        <div><strong>39</strong><span>Materiais</span></div>
+      </div>
+    </section>
+
+    <!-- Lado direito: formulário -->
+    <section class="login-form-wrap">
+      <form class="login-form" id="loginForm">
+        <div><h1>Acessar painel</h1><p style="color:var(--muted)">Entre com suas credenciais corporativas.</p></div>
+        <label>Usuário<input type="text" id="user" autocomplete="username" required /></label>
+        <label>Senha<input type="password" id="pass" autocomplete="current-password" required /></label>
+        <p class="error" id="err"></p>
+        <button class="btn" type="submit">Entrar</button>
+        <p class="hint">Acesso demo → usuário: <b>admin</b> · senha: <b>bi2026</b></p>
+      </form>
+    </section>
+  </div>
+
+  <script>
+    // Login fictício para demonstração (não há autenticação real)
+    document.getElementById("loginForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const u = document.getElementById("user").value.trim();
+      const p = document.getElementById("pass").value;
+      if (u === "admin" && p === "bi2026") {
+        sessionStorage.setItem("bi_user", "admin");
+        location.href = "dashboard.html";
+      } else {
+        document.getElementById("err").textContent = "Usuário ou senha inválidos.";
+      }
+    });
+  </script>
+</body>
+</html>

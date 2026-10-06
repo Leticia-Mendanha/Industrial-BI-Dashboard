@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Qualidade — Industrial BI Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body data-page="qualidade" data-title="Qualidade">
+  <div class="app">
+    <aside id="sidebar"></aside>
+    <main class="main">
+      <header id="topbar"></header>
+      <div class="content">
+<div class="filters"><label>Período<select id="f-periodo"><option value="7">Últimos 7 dias</option><option value="30" selected>Últimos 30 dias</option><option value="90">Últimos 90 dias</option></select></label> <label>Setor<select id="f-setor"></select></label></div>
+<div class="grid kpis" id="kpis"></div>
+<div class="grid g-2">
+  <div class="card"><div class="card-head"><h3>Defeitos por categoria</h3><span>peças rejeitadas</span></div><div class="chart-box"><canvas id="c-def"></canvas></div></div>
+  <div class="card"><div class="card-head"><h3>Evolução da taxa de rejeição</h3><span>% diário · média móvel 7d</span></div><div class="chart-box"><canvas id="c-taxa"></canvas></div></div>
+</div>
+<div class="grid g-2">
+  <div class="card"><div class="card-head"><h3>Taxa de rejeição por setor</h3><span>%</span></div><div class="chart-box"><canvas id="c-setor"></canvas></div></div>
+  <div class="card"><div class="card-head"><h3>Taxa de rejeição por turno</h3><span>%</span></div><div class="chart-box"><canvas id="c-turno"></canvas></div></div>
+</div>
+      </div>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/qualidade.js"></script>
+</body>
+</html>

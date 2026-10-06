@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Estoque — Industrial BI Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body data-page="estoque" data-title="Estoque">
+  <div class="app">
+    <aside id="sidebar"></aside>
+    <main class="main">
+      <header id="topbar"></header>
+      <div class="content">
+<div class="grid kpis six" id="kpis"></div>
+<div class="grid g-2-1">
+  <div class="card"><div class="card-head"><h3>Curva ABC</h3><span>valor de consumo anual</span></div><div class="chart-box"><canvas id="c-abc"></canvas></div></div>
+  <div class="card"><div class="card-head"><h3>Resumo ABC</h3><span>itens x valor</span></div><div id="abc-resumo"></div></div>
+</div>
+<div class="grid g-2">
+  <div class="card"><div class="card-head"><h3>Valor em estoque por categoria</h3><span>R$</span></div><div class="chart-box"><canvas id="c-cat"></canvas></div></div>
+  <div class="card"><div class="card-head"><h3>Status dos itens</h3><span>quantidade</span></div><div class="chart-box"><canvas id="c-status"></canvas></div></div>
+</div>
+<div class="filters"><label>Buscar<input type="search" id="f-busca" placeholder="Código ou descrição" /></label><label>Categoria<select id="f-cat"></select></label><label>Status<select id="f-status"></select></label><label>Classe ABC<select id="f-classe"></select></label><button class="btn-ghost" id="f-export">Exportar CSV</button></div>
+<div class="card"><div class="card-head"><h3>Itens em estoque</h3><span id="t-count"></span></div><div class="table-wrap"><table><thead><tr><th>Código</th><th>Descrição</th><th>Categoria</th><th class="num">Atual</th><th class="num">Mínimo</th><th class="num">Máximo</th><th class="num">Consumo médio/dia</th><th>Nível</th><th>ABC</th><th>Status</th></tr></thead><tbody id="t-body"></tbody></table></div></div>
+      </div>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/estoque.js"></script>
+</body>
+</html>
